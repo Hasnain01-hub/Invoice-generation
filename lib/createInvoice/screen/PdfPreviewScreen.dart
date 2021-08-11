@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:invoice_gen/screens/noNetwork.dart';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:invoice_gen/createInvoice/widget/transitions/PageTransistions.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
@@ -37,34 +37,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
 
-    connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult connresult) {
-      if (connresult == ConnectivityResult.none) {
-        dialogshown = true;
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder:(context)=> noNetwork(),
-        );
-      } else if (_previousResult == ConnectivityResult.none) {
-        checkinternet().then((result) {
-          if (result == true) {
-            if (dialogshown == true) {
-              dialogshown = false;
-              Navigator.pop(context);
-            }
-          }
-        });
-      }
-
-      _previousResult = connresult;
-    });
-  }
 
   @override
   void dispose() {

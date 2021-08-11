@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:invoice_gen/admin/adminnav.dart';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:email_validator/email_validator.dart';
 
-import 'package:invoice_gen/screens/noNetwork.dart';
+
 import 'package:connectivity/connectivity.dart';
 
 import 'package:flutter/material.dart';
@@ -57,36 +57,6 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
     }
   }
 
-  @override
-  void initState() {
-    isUpdating = false;
-    refreshList();
-    super.initState();
-
-    connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult connresult) {
-      if (connresult == ConnectivityResult.none) {
-        dialogshown = true;
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => noNetwork(),
-        );
-      } else if (_previousResult == ConnectivityResult.none) {
-        checkinternet().then((result) {
-          if (result == true) {
-            if (dialogshown == true) {
-              dialogshown = false;
-              Navigator.pop(context);
-            }
-          }
-        });
-      }
-
-      _previousResult = connresult;
-    });
-  }
 
   @override
   void dispose() {
@@ -644,7 +614,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: adminnav(),
+
       appBar: AppBar(
         title: Text("Create Invoice"),
         centerTitle: true,

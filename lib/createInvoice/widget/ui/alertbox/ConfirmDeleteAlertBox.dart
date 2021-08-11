@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:car_service/createInvoice/database/dao/pdfDAO.dart';
+import 'package:invoice_gen/createInvoice/database/dao/pdfDAO.dart';
 
 class ConfirmDeleteAlertBoxButton extends StatelessWidget {
   final Function deleteFunction;

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:invoice_gen/screens/noNetwork.dart';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,36 +55,7 @@ class _FormScreenState extends State<FormScreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    overallInvoice = new OverallInvoice();
-    initPageDetail();
 
-    connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult connresult) {
-      if (connresult == ConnectivityResult.none) {
-        dialogshown = true;
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder:(context)=> noNetwork(),
-        );
-      } else if (_previousResult == ConnectivityResult.none) {
-        checkinternet().then((result) {
-          if (result == true) {
-            if (dialogshown == true) {
-              dialogshown = false;
-              Navigator.pop(context);
-            }
-          }
-        });
-      }
-
-      _previousResult = connresult;
-    });
-  }
 
   @override
   void dispose() {

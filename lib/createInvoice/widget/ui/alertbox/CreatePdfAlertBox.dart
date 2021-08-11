@@ -1,9 +1,9 @@
-import 'package:car_service/createInvoice/screen/InvoiceBuilderListScreen.dart';
+import 'package:invoice_gen/createInvoice/screen/InvoiceBuilderListScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:car_service/createInvoice/constant/alertbox/AlertBoxContent.dart';
-import 'package:car_service/createInvoice/constant/pdf/crud/PdfBuilder.dart';
-import 'package:car_service/createInvoice/database/dao/FormDAO.dart';
-import 'package:car_service/createInvoice/widget/transitions/PageTransistions.dart';
+import 'package:invoice_gen/createInvoice/constant/alertbox/AlertBoxContent.dart';
+import 'package:invoice_gen/createInvoice/constant/pdf/crud/PdfBuilder.dart';
+import 'package:invoice_gen/createInvoice/database/dao/FormDAO.dart';
+import 'package:invoice_gen/createInvoice/widget/transitions/PageTransistions.dart';
 
 class CreatePdfAlertBox {
   static List<Widget> listOfButtons = initListOfButtons();
