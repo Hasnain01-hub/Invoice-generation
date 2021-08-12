@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "499569509467",
+    "project_id": "invoicegen-814ee",
+    "storage_bucket": "invoicegen-814ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499569509467:android:f8643ee4e4cf4f05d66b7e",
+        "android_client_info": {
+          "package_name": "com.example.invoice_gen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499569509467-u8n9l6jjd2cng05uls9ns3rat80osdsa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUk0nIIwbSuWxxOe9cwcyT9ebnEHB500w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499569509467-u8n9l6jjd2cng05uls9ns3rat80osdsa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

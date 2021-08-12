@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 
-import 'package:connectivity/connectivity.dart';
+
 import 'package:invoice_gen/createInvoice/widget/transitions/PageTransistions.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:share/share.dart';
@@ -22,7 +22,7 @@ class PdfPreviewScreen extends StatefulWidget {
 
 class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   StreamSubscription connectivitySubscription;
-  ConnectivityResult _previousResult;
+  
   bool dialogshown = false;
 
   // ignore: missing_return

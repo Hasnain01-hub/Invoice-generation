@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:email_validator/email_validator.dart';
-
-
-import 'package:connectivity/connectivity.dart';
 
 import 'package:flutter/material.dart';
 import 'package:invoice_gen/createInvoice/constant/pdf/crud/PdfReader.dart';
@@ -42,21 +37,10 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   //alertbox
   bool currentState;
   StreamSubscription connectivitySubscription;
-  ConnectivityResult _previousResult;
+
   bool dialogshown = false;
 
   // ignore: missing_return
-  Future<bool> checkinternet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return Future.value(true);
-      }
-    } on SocketException catch (_) {
-      return Future.value(false);
-    }
-  }
-
 
   @override
   void dispose() {
@@ -90,8 +74,8 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
       Reference ref = FirebaseStorage.instance
           .ref()
           .child('pdfs/${DateTime.now().millisecondsSinceEpoch}.pdf');
-      UploadTask uploadTask =
-          ref.putFile(io.File(file.path), SettableMetadata(contentType: 'application/pdf'));
+      UploadTask uploadTask = ref.putFile(
+          io.File(file.path), SettableMetadata(contentType: 'application/pdf'));
 
       TaskSnapshot snapshot = await uploadTask;
 
@@ -111,7 +95,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   TextEditingController phone_no = new TextEditingController();
   saveItemInfo(String downloadUrl) async {
     await FirebaseFirestore.instance.collection("Invoices").doc(postId).set({
-      "id" : postId,
+      "id": postId,
       "Url": downloadUrl,
       "User Email": Email.text,
       "Customer Name": customer_name.text,
@@ -614,7 +598,6 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: Text("Create Invoice"),
         centerTitle: true,

@@ -28,7 +28,7 @@ dependencies:
   firebase_auth: 0.20.0+1
   firebase_core: 0.7.0
   get: any
-  connectivity: ^2.0.2
+  
   flutter_full_pdf_viewer: ^1.0.6
   google_fonts: ^1.0.0
   date_range_picker: ^1.0.5
@@ -78,13 +78,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_native_splash: ^0.2.8
+#   flutter_native_splash: ^0.2.8
 
-flutter_native_splash:
-  color: "#3F51B5"
-  image: assets/images/launch_image.png
-  android: true
-  ios: true
+# flutter_native_splash:
+#   color: "#3F51B5"
+#   image: assets/images/launch_image.png
+#   android: true
+#   ios: true
 
 #  integration_test: ^1.0.0
 #  sdk: flutter

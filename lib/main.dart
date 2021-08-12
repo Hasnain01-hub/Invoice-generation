@@ -17,17 +17,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Invoice Generation',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      initialRoute: "/",
+      routes: {
+        FormScreen.routeName: (ctx) => FormScreen(),
+      },
 
-        title: 'Invoice Generation',
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-        ),
-        home:Scaffold(
-          body:InvoiceBuilderListScreen(),
-        ),
-        debugShowCheckedModeBanner: false,
-        // initialRoute: initialScreen(),
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(),
+      // initialRoute: initialScreen(),
     );
+  }
+}
 
+class MyHomePage extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return InvoiceBuilderListScreen();
   }
 }

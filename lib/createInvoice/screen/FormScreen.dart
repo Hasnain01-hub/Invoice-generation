@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 
-import 'package:connectivity/connectivity.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:invoice_gen/createInvoice/database/dao/FormDAO.dart';
@@ -40,7 +40,7 @@ class _FormScreenState extends State<FormScreen> {
   bool validateClientDetail = false;
   bool validateServiceDetail = false;
   StreamSubscription connectivitySubscription;
-  ConnectivityResult _previousResult;
+  
   bool dialogshown = false;
 
   // ignore: missing_return
