@@ -14,6 +14,7 @@ import 'package:invoice_gen/createInvoice/screen/FormScreen.dart';
 import 'package:invoice_gen/createInvoice/widget/ui/alertbox/ConfirmDeleteAlertBox.dart';
 import 'package:invoice_gen/createInvoice/widget/ui/pdfbuilder/InvoiceOverviewWidget.dart';
 import 'package:intl/intl.dart';
+import 'package:invoice_gen/view_Invoices/nav_drawer.dart';
 import 'dart:io' as io;
 
 import 'package:uuid/uuid.dart';
@@ -89,17 +90,15 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
     }
   }
 
-  TextEditingController Email = new TextEditingController();
+
   TextEditingController customer_name = new TextEditingController();
-  TextEditingController vehicle_no = new TextEditingController();
+
   TextEditingController phone_no = new TextEditingController();
   saveItemInfo(String downloadUrl) async {
     await FirebaseFirestore.instance.collection("Invoices").doc(postId).set({
       "id": postId,
       "Url": downloadUrl,
-      "User Email": Email.text,
-      "Customer Name": customer_name.text,
-      "Vehicle No": vehicle_no.text,
+        "Customer Name": customer_name.text,
       "Phone No": phone_no.text,
       "Date": DateFormat('yyyy-MM-dd \n kk:mm:ss')
           .format(DateTime.now())
@@ -107,9 +106,9 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
     });
     setState(() {
       customer_name.clear();
-      vehicle_no.clear();
+
       phone_no.clear();
-      Email.clear();
+
     });
   }
 
@@ -265,38 +264,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             },
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              labelText: 'Vehicle no',
-                                              enabledBorder:
-                                                  UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
-                                              ),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              hintText: 'Enter Vehicle no',
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
-                                            ),
-                                            // keyboardType: TextInputType.visiblePassword,
-                                            controller: vehicle_no,
-                                            validator: (String? value) {
-                                              if (value!.isEmpty) {
-                                                return 'Enter Vehicle no';
-                                              }
 
-                                              return null;
-                                            },
-                                            onSaved: (String? value) {
-                                              vehicle = value;
-                                            },
-                                          ),
-                                        ),
                                         Padding(
                                           padding: EdgeInsets.all(8.0),
                                           child: TextFormField(
@@ -332,43 +300,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             },
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              labelText: 'Customer Email ID',
-                                              enabledBorder:
-                                                  UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
-                                              ),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              hintText:
-                                                  'Enter Customer Email ID',
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
-                                            ),
-                                            // keyboardType: TextInputType.visiblePassword,
-                                            controller: Email,
-                                            validator: (value) => EmailValidator
-                                                    .validate(value??"")
-                                                ? null
-                                                : "Please enter a valid email",
-                                            // validator: (String value) {
-                                            //   if (value.isEmpty) {
-                                            //     return 'User Email ID required';
-                                            //   }
-                                            //
-                                            //   return null;
-                                            // },
-                                            onSaved: (String? value) {
-                                              Email_id = value;
-                                            },
-                                          ),
-                                        ),
+
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: ElevatedButton(
@@ -596,11 +528,15 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      drawer:NavDrawer(),
       appBar: AppBar(
         title: Text("Create Invoice"),
         centerTitle: true,
+
       ),
+
       body: new Container(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.start,

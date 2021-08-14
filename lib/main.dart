@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
-    return
-         InvoiceBuilderListScreen();
+    return InvoiceBuilderListScreen();
   }
 }

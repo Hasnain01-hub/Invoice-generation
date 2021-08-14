@@ -47,7 +47,10 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
           icon: new Icon(Icons.arrow_back),
           onPressed: () {
             print("go to home page");
-            Navigator.of(context).pushReplacement(SlideRightRoute(page: InvoiceBuilderListScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => InvoiceBuilderListScreen()),
+            );
           },
         ),
         title: Text("PDF Preview"),
@@ -56,7 +59,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
             icon: const Icon(Icons.share),
             tooltip: 'Share file',
             onPressed: () {
-              print("download");
+              print("share file");
               sharePdf(widget.path);
             },
           ),
