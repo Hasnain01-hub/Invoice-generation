@@ -211,8 +211,8 @@ class _viewInvoicesState extends State<viewInvoices> {
                                               customerName +
                                                   ' ' +
                                                   userInvoiceList[index]
-                                                  ['Customer Name']
-                                                      .toUpperCase(),
+                                                  ['Customer Name'],
+
                                               style: TextStyle(
                                                 color: Colors.black87,
                                                 fontSize: 16.0,

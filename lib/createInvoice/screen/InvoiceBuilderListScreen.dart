@@ -42,7 +42,12 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   bool dialogshown = false;
 
   // ignore: missing_return
-
+  @override
+  void initState() {
+    isUpdating = false;
+    refreshList();
+    super.initState();
+  }
   @override
   void dispose() {
     dbHelper!.close();
@@ -189,247 +194,244 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                           icon: const Icon(
                             Icons.image,
                             color: Colors.blueAccent,
-                          ), onPressed: () {  },
-                        ), onTap: () {
-                      String? filePath = pdf.filePath;
-                      PdfReader.navigateToPDFPage(context, filePath!);
-                    }),
+                          ), onPressed: () {String? filePath = pdf.filePath;
+                        PdfReader.navigateToPDFPage(context, filePath!);  },
+                        ), ),
                     DataCell(
                         IconButton(
                           icon: const Icon(
                             Icons.upload_sharp,
                             color: Colors.blueGrey,
-                          ), onPressed: () {  },
-                        ), onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context,
-                            {BuildContext? popupContext}) {
-                          return AlertDialog(
-                            title: Text(
-                              "Upload ",
-                              textAlign: TextAlign.center,
-                            ),
-                            content: SingleChildScrollView(
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: <Widget>[
-                                  Positioned(
-                                    right: -39.0,
-                                    top: -66.0,
-                                    child: InkResponse(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: CircleAvatar(
-                                        child: Icon(Icons.close),
-                                        backgroundColor: Colors.red,
+                          ), onPressed: () {                        showDialog(
+                          context: context,
+                          builder: (BuildContext context,
+                              {BuildContext? popupContext}) {
+                            return AlertDialog(
+                              title: Text(
+                                "Upload ",
+                                textAlign: TextAlign.center,
+                              ),
+                              content: SingleChildScrollView(
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: <Widget>[
+                                    Positioned(
+                                      right: -39.0,
+                                      top: -66.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close),
+                                          backgroundColor: Colors.red,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              labelText: 'Customer Name',
-                                              enabledBorder:
-                                                  UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
+                                    Form(
+                                      key: _formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                labelText: 'Customer Name',
+                                                enabledBorder:
+                                                UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black),
+                                                ),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0)),
+                                                hintText: 'Enter Customer Name',
+                                                hintStyle:
+                                                TextStyle(color: Colors.grey),
                                               ),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              hintText: 'Enter Customer Name',
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
+                                              // keyboardType: TextInputType.visiblePassword,
+                                              controller: customer_name,
+                                              validator: (String? value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Enter Customer Name';
+                                                }
+
+                                                return null;
+                                              },
+                                              onSaved: (String? value) {
+                                                customerName = value;
+                                              },
                                             ),
-                                            // keyboardType: TextInputType.visiblePassword,
-                                            controller: customer_name,
-                                            validator: (String? value) {
-                                              if (value!.isEmpty) {
-                                                return 'Enter Customer Name';
-                                              }
-
-                                              return null;
-                                            },
-                                            onSaved: (String? value) {
-                                              customerName = value;
-                                            },
                                           ),
-                                        ),
 
-                                        Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            maxLength: 10,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              labelText: 'Customer Phone No',
-                                              enabledBorder:
-                                                  UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              maxLength: 10,
+                                              keyboardType: TextInputType.number,
+                                              decoration: InputDecoration(
+                                                labelText: 'Customer Phone No',
+                                                enabledBorder:
+                                                UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black),
+                                                ),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0)),
+                                                hintText:
+                                                'Enter Customer Phone No',
+                                                hintStyle:
+                                                TextStyle(color: Colors.grey),
                                               ),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              hintText:
-                                                  'Enter Customer Phone No',
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
+                                              // keyboardType: TextInputType.visiblePassword,
+                                              controller: phone_no,
+                                              validator: (String? value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Enter Customer Phone No';
+                                                }
+
+                                                return null;
+                                              },
+                                              onSaved: (String? value) {
+                                                phone = value;
+                                              },
                                             ),
-                                            // keyboardType: TextInputType.visiblePassword,
-                                            controller: phone_no,
-                                            validator: (String? value) {
-                                              if (value!.isEmpty) {
-                                                return 'Enter Customer Phone No';
-                                              }
-
-                                              return null;
-                                            },
-                                            onSaved: (String? value) {
-                                              phone = value;
-                                            },
                                           ),
-                                        ),
 
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                            child: Text("Submit"),
-                                            onPressed: () {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                _formKey.currentState!.save();
-                                                print(Email_id);
-                                                uploadPdfToStorage(pdf);
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ElevatedButton(
+                                              child: Text("Submit"),
+                                              onPressed: () {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  _formKey.currentState!.save();
+                                                  print(Email_id);
+                                                  uploadPdfToStorage(pdf);
 
-                                                Dialog dialog = Dialog(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4.0)),
-                                                    child: Stack(
-                                                      clipBehavior: Clip.none,
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                      children: [
-                                                        Container(
-                                                          height: 200,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .fromLTRB(
-                                                                    10,
-                                                                    70,
-                                                                    10,
-                                                                    10),
-                                                            child: Column(
-                                                              children: [
-                                                                Text(
-                                                                  'Success !',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          20),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                Text(
-                                                                  'Successfully Uploaded ' ,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        20,
+                                                  Dialog dialog = Dialog(
+                                                      shape:
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              4.0)),
+                                                      child: Stack(
+                                                        clipBehavior: Clip.none,
+                                                        alignment:
+                                                        Alignment.topCenter,
+                                                        children: [
+                                                          Container(
+                                                            height: 200,
+                                                            child: Padding(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  10,
+                                                                  70,
+                                                                  10,
+                                                                  10),
+                                                              child: Column(
+                                                                children: [
+                                                                  Text(
+                                                                    'Success !',
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                        fontSize:
+                                                                        20),
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 20,
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    // ignore: deprecated_member_use
-                                                                    RaisedButton(
-                                                                      color: Colors
-                                                                          .indigo,
-                                                                      child:
-                                                                          Text(
-                                                                        "Ok",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                      },
+                                                                  SizedBox(
+                                                                    height: 5,
+                                                                  ),
+                                                                  Text(
+                                                                    'Successfully Uploaded ' ,
+                                                                    style:
+                                                                    TextStyle(
+                                                                      fontSize:
+                                                                      20,
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 20,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      // ignore: deprecated_member_use
+                                                                      RaisedButton(
+                                                                        color: Colors
+                                                                            .indigo,
+                                                                        child:
+                                                                        Text(
+                                                                          "Ok",
+                                                                          style: TextStyle(
+                                                                              color:
+                                                                              Colors.white),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Positioned(
-                                                            top: -60,
-                                                            child: CircleAvatar(
-                                                              backgroundColor:
-                                                                  Colors.indigo,
-                                                              radius: 60,
-                                                              child: Icon(
-                                                                Icons
-                                                                    .sentiment_satisfied_alt,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 70,
-                                                              ),
-                                                            )),
-                                                      ],
-                                                    ));
+                                                          Positioned(
+                                                              top: -60,
+                                                              child: CircleAvatar(
+                                                                backgroundColor:
+                                                                Colors.indigo,
+                                                                radius: 60,
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .sentiment_satisfied_alt,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 70,
+                                                                ),
+                                                              )),
+                                                        ],
+                                                      ));
 
-                                                showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return dialog;
-                                                    });
-                                              }
-                                              _formKey.currentState!.save();
-                                            },
-                                          ),
-                                        )
-                                      ],
+                                                  showDialog(
+                                                      context: context,
+                                                      builder:
+                                                          (BuildContext context) {
+                                                        return dialog;
+                                                      });
+                                                }
+                                                _formKey.currentState!.save();
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
 
-                      controller.text = pdf.fileName!;
-                    }),
+                        controller.text = pdf.fileName!;
+                        },
+                        ), ),
                     DataCell(ConfirmDeleteAlertBoxButton(_validateDelete, pdf)),
                   ],
                 ))
