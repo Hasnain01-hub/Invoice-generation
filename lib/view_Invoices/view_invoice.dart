@@ -166,7 +166,6 @@ class _viewInvoicesState extends State<viewInvoices> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavDrawer(),
       appBar: AppBar(
         title: Text("View Invoices"),
         centerTitle: true,
@@ -182,7 +181,7 @@ class _viewInvoicesState extends State<viewInvoices> {
                   child: Card(
                     elevation: 4.0,
                     child: Container(
-                      height: 270.0,
+                      height: 200.0,
                       width: MediaQuery.of(context).size.width,
                       child: Row(
                         children: [
