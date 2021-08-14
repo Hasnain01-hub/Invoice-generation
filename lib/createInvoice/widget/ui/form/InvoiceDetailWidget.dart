@@ -16,8 +16,8 @@ class InvoiceDetailWidget extends StatefulWidget {
 class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
   final formKey = new GlobalKey<FormState>();
   //date range
-  static DateTime minYear;
-  static DateTime maxYear;
+  static DateTime? minYear;
+  static DateTime? maxYear;
   var custom_length_id = nanoid(3);
   String getDateString(DateTime date) =>
       "${date.day}/${date.month}/${date.year}";
@@ -35,9 +35,9 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
   }
 
   void validateForm() {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState!.validate()) {
       widget.validateController(widget.pageIndex,false);
-      formKey.currentState.save();
+      formKey.currentState!.save();
     }
     else {
       //prevent procced to next page if validation is not successful
@@ -77,12 +77,12 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
                 decoration: InputDecoration(labelText: "PDF Name",
 
                 ),
-                validator: (String value) {
-                  return value.isEmpty ? 'PDF Name is Required' : null;
+                validator: (String? value) {
+                  return value!.isEmpty ? 'PDF Name is Required' : null;
                 },
-                onSaved: (String value) {
-                  widget.invoiceDetails.invoiceNumber = value;
-                  widget.invoiceDetails.invoiceNoTxtCtrl.text = widget.invoiceDetails.invoiceNumber;
+                onSaved: (String? value) {
+                  widget.invoiceDetails.invoiceNumber = value!;
+                  widget.invoiceDetails.invoiceNoTxtCtrl.text = widget.invoiceDetails.invoiceNumber!;
                 },
                   onChanged: (text) {
                     // TextSelection previousSelection = billingDetails.companyNameTxtCtrl.selection;
@@ -110,13 +110,13 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
       children: <Widget>[
         Expanded(
           child: TextFormField(
-            controller: widget.invoiceDetails.dateOfIssue.dateOfIssueCtrl,
+            controller: widget.invoiceDetails.dateOfIssue!.dateOfIssueCtrl,
             maxLength: 10,
             decoration: InputDecoration(labelText: 'Date Of Issue',counter: Offstage(),),
-            validator: (String value) {
-              return value.isEmpty ? 'Date of Issue is Required' : null;
+            validator: (String? value) {
+              return value!.isEmpty ? 'Date of Issue is Required' : null;
             },
-            onSaved: (String value) {
+            onSaved: (String? value) {
               widget.invoiceDetails.dateOfIssue = new DateOfIssue(doi: value);
             },
           ),
@@ -129,7 +129,7 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey[500],
+                color: Colors.grey.shade500,
               ),
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
@@ -145,10 +145,10 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
                   onChanged: (date) {},
                   onConfirm: (date) {
                     setState(() {
-                      widget.invoiceDetails.dateOfIssue.doi =
+                      widget.invoiceDetails.dateOfIssue!.doi =
                           getDateString(date);
                       widget.invoiceDetails.dateOfIssue = new DateOfIssue(
-                          doi: widget.invoiceDetails.dateOfIssue.doi);
+                          doi: widget.invoiceDetails.dateOfIssue!.doi);
                     });
                     new Future.delayed(new Duration(seconds: 1), () {
                       validateForm();
@@ -196,14 +196,14 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
       children: <Widget>[
         Expanded(
           child: TextFormField(
-            controller: widget.invoiceDetails.dateOfService.firstDateTxtCtrl,
+            controller: widget.invoiceDetails.dateOfService!.firstDateTxtCtrl,
             maxLength: 10,
             decoration: InputDecoration(labelText: 'From',counter: Offstage(),),
-            validator: (String value) {
-              return value.isEmpty ? 'Empty' : null;
+            validator: (String? value) {
+              return value!.isEmpty ? 'Empty' : null;
             },
-            onSaved: (String value) {
-              widget.invoiceDetails.dateOfService.firstDate = value;
+            onSaved: (String? value) {
+              widget.invoiceDetails.dateOfService!.firstDate = value!;
             },
           ),
         ),
@@ -212,14 +212,14 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
         ),
         Expanded(
           child: TextFormField(
-            controller: widget.invoiceDetails.dateOfService.lastDateTxtCtrl,
+            controller: widget.invoiceDetails.dateOfService!.lastDateTxtCtrl,
             maxLength: 10,
             decoration: InputDecoration(labelText: 'To',counter: Offstage(),),
-            validator: (String value) {
-              return value.isEmpty ? 'Empty' : null;
+            validator: (String? value) {
+              return value!.isEmpty ? 'Empty' : null;
             },
-            onSaved: (String value) {
-              widget.invoiceDetails.dateOfService.lastDate = value;
+            onSaved: (String? value) {
+              widget.invoiceDetails.dateOfService!.lastDate = value;
             },
           ),
         ),
@@ -231,7 +231,7 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey[500],
+                color: Colors.grey.shade500,
               ),
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),

@@ -5,9 +5,9 @@ class InvoicePage extends Page {
   final PdfImage headerImage;
 
   InvoicePage({
-    PdfImage this.headerImage,
-    BuildCallback build,
-    EdgeInsets margin,
+    required PdfImage this.headerImage,
+    required BuildCallback build,
+    required EdgeInsets margin,
   }) : super(
        build: build,
     margin: margin,

@@ -16,9 +16,9 @@ class vehicleWidget extends StatelessWidget {
     return Form(
       key: formKey,
       onChanged: () {
-        if (formKey.currentState.validate()) {
+        if (formKey.currentState!.validate()) {
           validateController(pageIndex,false);
-          formKey.currentState.save();
+          formKey.currentState!.save();
         }
         else {
           //prevent procced to next page if validation is not successful
@@ -49,12 +49,12 @@ class vehicleWidget extends StatelessWidget {
             textDirection: TextDirection.ltr,
 
             decoration: InputDecoration(labelText: "Vehicle No"),
-            validator: (String value) {
-              return value.isEmpty ? 'Vehicle No is Required' : null;
+            validator: (String? value) {
+              return value!.isEmpty ? 'Vehicle No is Required' : null;
             },
 
-            onSaved: (String value) {
-              vehicleDetails.vehicleNo = value;
+            onSaved: (String? value) {
+              vehicleDetails.vehicleNo = value!;
               vehicleDetails.vehiclenoTxtCtrl.text = vehicleDetails.vehicleNo;
             },
               onChanged: (text) {
@@ -70,11 +70,11 @@ class vehicleWidget extends StatelessWidget {
             maxLength: 20,
             textDirection: TextDirection.ltr,
             decoration: InputDecoration(labelText: "Model"),
-            validator: (String value) {
-              return value.isEmpty ? 'Model cannot be empty' : null;
+            validator: (String? value) {
+              return value!.isEmpty ? 'Model cannot be empty' : null;
             },
-            onSaved: (String value) {
-              vehicleDetails.modelLine1 = value;
+            onSaved: (String? value) {
+              vehicleDetails.modelLine1 = value!;
               vehicleDetails.modelTxtCtrl.text = vehicleDetails.modelLine1;
             },
               onChanged: (text) {

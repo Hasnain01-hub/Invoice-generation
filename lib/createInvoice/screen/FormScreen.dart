@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:invoice_gen/createInvoice/database/dao/FormDAO.dart';
@@ -12,58 +10,43 @@ import 'package:invoice_gen/createInvoice/widget/ui/form/BillingDetailWidget.dar
 import 'package:invoice_gen/createInvoice/widget/ui/form/InvoiceDetailWidget.dart';
 import 'package:invoice_gen/createInvoice/widget/ui/form/ServiceDetailWidget.dart';
 import 'package:invoice_gen/createInvoice/widget/vehicle.dart';
+
 // ignore: must_be_immutable
 class FormScreen extends StatefulWidget {
   static const routeName = '/createNewInvoice';
-  String Filename;
+  String? Filename;
 
-  String FILEPATH;
-  String ID;
-  FormScreen({Key key, @required this.ID,this.Filename,this.FILEPATH}) : super(key: key);
+  String? FILEPATH;
+  String? ID;
+  FormScreen({this.ID, this.Filename, this.FILEPATH});
   @override
   _FormScreenState createState() => _FormScreenState();
-
 }
 
 class _FormScreenState extends State<FormScreen> {
-
-
   // ignore: deprecated_member_use
-  final List<Widget> list = new List();
+  final List<Widget> list = [];
+
   int currentPagination = 1;
-  OverallInvoice overallInvoice;
+   OverallInvoice? overallInvoice;
   //errorMessage
-  String errorMessage;
+  String? errorMessage;
   //validation controllers
   bool validateInvoiceDetail = false;
   bool validateContractorDetail = false;
   bool validateClientDetail = false;
   bool validateServiceDetail = false;
-  StreamSubscription connectivitySubscription;
-  
+  StreamSubscription? connectivitySubscription;
+
   bool dialogshown = false;
-
-  // ignore: missing_return
-  Future<bool> checkinternet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return Future.value(true);
-      }
-    } on SocketException catch (_) {
-      return Future.value(false);
-    }
-  }
-
-
-
   @override
-  void dispose() {
-    overallInvoice = null;
-    super.dispose();
-    connectivitySubscription.cancel();
+  void initState() {
+    super.initState();
+    overallInvoice = new OverallInvoice();
+    initPageDetail();
   }
-
+  // ignore: missing_return
+@override
 
   void toggleValidationStatus(int currentPagination, bool status) {
     switch (currentPagination) {
@@ -104,25 +87,26 @@ class _FormScreenState extends State<FormScreen> {
       if (value != null) {
         value.trim();
         return value.isEmpty;
-      }
-      else{
+      } else {
         return true;
       }
     }
 
-    bool validateInvoiceDetails(InvoiceDetails invoiceDetails) {
+    bool validateInvoiceDetails(InvoiceDetails? invoiceDetails) {
       bool state = false;
 
-      if (checkIfNullOrEmpty(invoiceDetails.invoiceNumber)) {
+      if (checkIfNullOrEmpty(invoiceDetails!.invoiceNumber ?? '')) {
         state = true;
       }
-      if (checkIfNullOrEmpty(invoiceDetails.dateOfIssue.doi)) {
+      if (checkIfNullOrEmpty(invoiceDetails.dateOfIssue!.doi ??"")) {
         state = true;
       }
-      if (checkIfNullOrEmpty(invoiceDetails.dateOfService.firstDate)) {
+
+      //String ?? '' == String?
+      if (checkIfNullOrEmpty(invoiceDetails.dateOfService!.firstDate ??"")) {
         state = true;
       }
-      if (checkIfNullOrEmpty(invoiceDetails.dateOfService.lastDate)) {
+      if (checkIfNullOrEmpty(invoiceDetails.dateOfService!.lastDate ??"")) {
         state = true;
       }
       return state;
@@ -140,6 +124,7 @@ class _FormScreenState extends State<FormScreen> {
 
       return state;
     }
+
     bool validateclientDetails(VehicleDetails vehicleDetails) {
       bool state = false;
 
@@ -154,17 +139,16 @@ class _FormScreenState extends State<FormScreen> {
     }
 
     bool validateServiceDetails(List<ServiceDetails> serviceDetails) {
-      if(serviceDetails != null){
-        if(serviceDetails.isEmpty){
+      if (serviceDetails != null) {
+        if (serviceDetails.isEmpty) {
           return true;
-        }
-        else{
+        } else {
           bool result = false;
           serviceDetails.forEach((element) {
             print(element.serviceName);
-            bool serviceState = checkIfNullOrEmpty(element.serviceName);
+            bool serviceState = checkIfNullOrEmpty(element.serviceName ??"");
             bool netPrice = checkIfNullOrEmpty(element.nettPrice);
-            if(serviceState  || netPrice) {
+            if (serviceState || netPrice) {
               print("check");
               result = true;
             }
@@ -180,10 +164,10 @@ class _FormScreenState extends State<FormScreen> {
     bool state = false;
 
     if (overallInvoice != null) {
-      InvoiceDetails invoiceDetails = overallInvoice.invoiceDetails;
-      BillingDetails contractorDetails = overallInvoice.contractorDetails;
-      VehicleDetails clientDetails = overallInvoice.clientDetails;
-      List<ServiceDetails> serviceDetails = overallInvoice.serviceDetails;
+      InvoiceDetails? invoiceDetails = overallInvoice!.invoiceDetails;
+      BillingDetails? contractorDetails = overallInvoice!.contractorDetails;
+      VehicleDetails? clientDetails = overallInvoice!.clientDetails;
+      List<ServiceDetails>? serviceDetails = overallInvoice!.serviceDetails;
 
       int counter = 0;
       if (validateInvoiceDetails(invoiceDetails)) {
@@ -192,26 +176,26 @@ class _FormScreenState extends State<FormScreen> {
         buffer.write("$counter.Invoice Details incomplete Fields.\n");
       }
 
-      if(validateContractorDetails(contractorDetails)) {
+      if (validateContractorDetails(contractorDetails!)) {
         state = true;
         counter++;
         buffer.write("$counter.Customer Details incomplete Fields.\n");
       }
 
-      if(validateclientDetails(clientDetails)) {
+      if (validateclientDetails(clientDetails!)) {
         state = true;
         counter++;
         buffer.write("$counter.Vehicle Details incomplete Fields.\n");
       }
 
-      if(validateServiceDetails(serviceDetails)) {
+      if (validateServiceDetails(serviceDetails!)) {
         state = true;
         counter++;
         buffer.write("$counter.Service Details incomplete Fields.\n");
       }
 
       errorMessage = buffer.toString();
-      if(errorMessage.isNotEmpty) {
+      if (errorMessage!.isNotEmpty) {
         print(errorMessage);
       }
     }
@@ -219,23 +203,28 @@ class _FormScreenState extends State<FormScreen> {
   }
 
   List<Widget> initPageDetail() {
-    //first page
+
+    //first page open this
     list.add(InvoiceDetailWidget(
-        overallInvoice.invoiceDetails, 1, toggleValidationStatus));
+        overallInvoice?.invoiceDetails ?? InvoiceDetails(), 1, toggleValidationStatus ));
     //second page
     list.add(BillingWidget(
-        overallInvoice.contractorDetails, 2, toggleValidationStatus));
+        overallInvoice!.contractorDetails ?? BillingDetails() , 2, toggleValidationStatus));
     //third page
     list.add(
-        vehicleWidget(overallInvoice.clientDetails, 3, toggleValidationStatus));
+        vehicleWidget(overallInvoice!.clientDetails ?? VehicleDetails() , 3, toggleValidationStatus));
     //fourth page
     list.add(ServiceDetailWidget(
-        overallInvoice.serviceDetails, 4, toggleValidationStatus));
+        overallInvoice!.serviceDetails ?? [] , 4, toggleValidationStatus));
+
     return list;
+
   }
 
   Widget accessPageDetail(int i) {
-    return list[i];
+    print("length of list is ........+${list.length}");
+
+    return list[i] ;
   }
 
   @override
@@ -243,6 +232,7 @@ class _FormScreenState extends State<FormScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Create a New Invoice")),
       body: ListView(
+
         children: <Widget>[
           const SizedBox(
             height: 20,
@@ -289,7 +279,7 @@ class _FormScreenState extends State<FormScreen> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey[500],
+                color: Colors.grey.shade500,
               ),
               color:
                   currentPagination != 1 ? Colors.red[700] : Colors.grey[500],
@@ -330,7 +320,7 @@ class _FormScreenState extends State<FormScreen> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey[500],
+                color: Colors.grey.shade500,
               ),
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
@@ -351,10 +341,12 @@ class _FormScreenState extends State<FormScreen> {
                     });
                   } else if (currentPagination == list.length) {
                     if (validateAllFields()) {
-                      FieldValidationAlertBox.showAlertDialog(context,errorMessage);
+                      FieldValidationAlertBox.showAlertDialog(
+                          context, errorMessage!);
                       errorMessage = "";
                     } else {
-                      CreatePdfAlertBox.showAlertDialog(context, overallInvoice);
+                      CreatePdfAlertBox.showAlertDialog(
+                          context, overallInvoice!);
                       // setState(() {
                       //   Map<String, dynamic> invoice = {
                       //     "ID": widget.ID,
@@ -372,7 +364,7 @@ class _FormScreenState extends State<FormScreen> {
                       // });
 
                       //print data to verify its content
-                      overallInvoice.printContent();
+                      overallInvoice!.printContent();
                     }
                   }
                 }

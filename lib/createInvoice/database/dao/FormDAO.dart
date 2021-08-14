@@ -4,14 +4,14 @@ import 'package:invoice_gen/createInvoice/widget/vehicle.dart';
 class InvoiceDetails {
   TextEditingController invoiceNoTxtCtrl = new TextEditingController();
 
-  String invoiceNumber;
-  DateOfIssue dateOfIssue = new DateOfIssue.empty();
-  DateOfService dateOfService= new DateOfService.empty();
+  String? invoiceNumber;
+  DateOfIssue? dateOfIssue = new DateOfIssue.empty();
+  DateOfService? dateOfService= new DateOfService.empty();
 
   printContent() {
     print("invoice number: " + invoiceNumber.toString());
-    dateOfIssue.printContent();
-    dateOfService.printContent();
+    dateOfIssue!.printContent();
+    dateOfService!.printContent();
   }
 
 }
@@ -22,10 +22,10 @@ class BillingDetails {
   TextEditingController addressLine2TxtCtrl = new TextEditingController();
   TextEditingController addressLine3TxtCtrl = new TextEditingController();
 
-  String companyName;
-  String addressLine1;
-  String addressLine2;
-  String addressLine3;
+  late String companyName;
+  late String addressLine1;
+  late String addressLine2;
+  late String addressLine3;
 
   printContent() {
         print("billing company name: " + companyName.toString());
@@ -40,8 +40,8 @@ class VehicleDetails {
   TextEditingController vehiclenoTxtCtrl = new TextEditingController();
   TextEditingController modelTxtCtrl = new TextEditingController();
 
-  String vehicleNo;
-  String modelLine1;
+  late String vehicleNo;
+  late String modelLine1;
   printContent() {
     print("my vehicle no: " + vehicleNo.toString());
 
@@ -55,8 +55,8 @@ class ServiceDetails {
   TextEditingController nettPriceTxtCtrl = new TextEditingController();
 
   static int serviceIdCounter = 0;
-  int _serviceId;
-  String serviceName;
+  int? _serviceId;
+  String? serviceName;
   String nettPrice = "0.00";
 
   ServiceDetails(this.serviceName, this.nettPrice) {
@@ -68,43 +68,43 @@ class ServiceDetails {
     return serviceIdCounter += 1;
   }
 
-  int get serviceId => _serviceId;
+  int? get serviceId => _serviceId;
 
   printContent() {
-    print("service name: " + serviceName);
+    print("service name: " + serviceName!);
     print("nett price: " + nettPrice);
   }
 
 }
 
 class OverallInvoice {
-  InvoiceDetails invoiceDetails;
-  BillingDetails contractorDetails;
-  VehicleDetails clientDetails;
-  List<ServiceDetails> serviceDetails;
+  InvoiceDetails? invoiceDetails;
+  BillingDetails? contractorDetails;
+  VehicleDetails? clientDetails;
+  List<ServiceDetails>? serviceDetails;
 
   OverallInvoice() {
     invoiceDetails = new InvoiceDetails();
     contractorDetails = new BillingDetails();
     clientDetails = new VehicleDetails();
-    serviceDetails = new List();
+    serviceDetails = [];
 
-    serviceDetails.add(ServiceDetails("", "0.00"));
+    serviceDetails!.add(ServiceDetails("", "0.00"));
   }
 
   void printContent() {
     _getAllServiceDetailsToPrint(){
       int counter = 0;
-      serviceDetails.forEach((element) {
+      serviceDetails!.forEach((element) {
         counter = counter + 1;
         print("service detail $counter");
         element.printContent();
       });
     }
 
-    invoiceDetails.printContent();
-    contractorDetails.printContent();
-    clientDetails.printContent();
+    invoiceDetails!.printContent();
+    contractorDetails!.printContent();
+    clientDetails!.printContent();
     _getAllServiceDetailsToPrint();
   }
 
@@ -113,14 +113,14 @@ class OverallInvoice {
 class DateOfIssue {
   TextEditingController dateOfIssueCtrl = new TextEditingController();
 
-  String doi;
+  String? doi;
 
   DateOfIssue.empty(){
-    dateOfIssueCtrl.text = this.doi;
+    dateOfIssueCtrl.text = this.doi ??"";
   }
 
   DateOfIssue({this.doi}){
-    dateOfIssueCtrl.text = this.doi;
+    dateOfIssueCtrl.text = this.doi!;
   }
 
   printContent() {
@@ -134,17 +134,17 @@ class DateOfService {
   TextEditingController firstDateTxtCtrl = new TextEditingController();
   TextEditingController lastDateTxtCtrl = new TextEditingController();
 
-  String firstDate;
-  String lastDate;
+  String? firstDate;
+  String? lastDate;
 
   DateOfService.empty(){
-    firstDateTxtCtrl.text = this.firstDate;
-    lastDateTxtCtrl.text = this.lastDate;
+    firstDateTxtCtrl.text = this.firstDate as String;
+    lastDateTxtCtrl.text = this.lastDate as String;
   }
 
-  DateOfService({this.firstDate, this.lastDate}){
-    firstDateTxtCtrl.text = this.firstDate;
-    lastDateTxtCtrl.text = this.lastDate;
+  DateOfService({required this.firstDate, required this.lastDate}){
+    firstDateTxtCtrl.text = this.firstDate!;
+    lastDateTxtCtrl.text = this.lastDate!;
   }
 
   printContent() {

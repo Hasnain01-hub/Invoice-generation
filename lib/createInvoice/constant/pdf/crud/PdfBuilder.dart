@@ -12,14 +12,14 @@ import 'package:invoice_gen/createInvoice/database/dao/pdfDAO.dart';
 class PdfBuilder {
   bool filePathAssigned = false;
   final String _fileName;
-  String _directory;
+  String? _directory;
   final pw.Document _pdf = new pw.Document();
   var content;
   //SQL-STATEMENTS
-  DBHelper dbHelper;
-  PdfDB pdfDB;
+  DBHelper? dbHelper;
+  PdfDB? pdfDB;
 
-  String get fileName => _fileName;
+  String? get fileName => _fileName;
 
   //only use this method to create new PDF templates and persist into database
   PdfBuilder.createPdfTemplate(this._fileName, OverallInvoice overallInvoice) {
@@ -34,34 +34,34 @@ class PdfBuilder {
     print("filename: " + _fileName.toString());
     print("directory: " + _directory.toString());
     pdfDB = PdfDB(null, _fileName, _directory);
-    dbHelper.save(pdfDB);
-    dbHelper.close();
+    dbHelper!.save(pdfDB!);
+    dbHelper!.close();
   }
 
   void navigateToPdfPage(BuildContext context) {
-    String fullPath = filePath();
-    PdfReader.navigateToPDFPage(context, fullPath);
+    String? fullPath = filePath();
+    PdfReader.navigateToPDFPage(context, fullPath!);
   }
 
   Future savePdf() async {
-    String directory = await _tempDirectory;
-    File file = new File(directory);
+    String? directory = await _tempDirectory;
+    File file = new File(directory!);
     final content = _pdf.save();
     print("file saved successfully");
-   file.writeAsBytesSync(content);
+   file.writeAsBytesSync(await content);
 
     filePathAssigned = true;
     return content;
   }
 
-  String filePath() {
+  String? filePath() {
     if (_directory == null) {
       throw new Exception("file path not assigned");
     }
     return _directory;
   }
 
-  Future<String> get _tempDirectory async {
+  Future<String?> get _tempDirectory async {
     _directory = await IoOperations.writeDocsIntoDirectory(_fileName);
     return _directory;
   }

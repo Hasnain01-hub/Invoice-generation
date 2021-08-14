@@ -25,18 +25,18 @@ class InvoiceBuilderListScreen extends StatefulWidget {
 }
 
 class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
-  Future<List<PdfDB>> pdfDbList;
+  Future<List<PdfDB>>? pdfDbList;
   TextEditingController controller = TextEditingController();
-  String newFileName;
-  int currentPDFId;
-  PdfDB currentPDFdb;
+  String? newFileName;
+  int? currentPDFId;
+  PdfDB? currentPDFdb;
   String postId = Uuid().v4();
   final formKey = new GlobalKey<FormState>();
-  DBHelper dbHelper;
-  bool isUpdating;
+  DBHelper? dbHelper;
+  bool isUpdating = false;
   //alertbox
-  bool currentState;
-  StreamSubscription connectivitySubscription;
+  bool? currentState;
+  StreamSubscription? connectivitySubscription;
 
   bool dialogshown = false;
 
@@ -44,9 +44,9 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
 
   @override
   void dispose() {
-    dbHelper.close();
+    dbHelper!.close();
     super.dispose();
-    connectivitySubscription.cancel();
+    connectivitySubscription!.cancel();
   }
 
   assignFileName(String val) {
@@ -60,15 +60,15 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   refreshList() {
     dbHelper = DBHelper();
     setState(() {
-      pdfDbList = dbHelper.getPdfDB();
+      pdfDbList = dbHelper!.getPdfDB();
       print("refresh homepage list");
     });
-    dbHelper.close();
+    dbHelper!.close();
   }
 
-  Future<String> uploadPdfToStorage(PdfDB pdf) async {
+  Future<String?> uploadPdfToStorage(PdfDB? pdf) async {
     try {
-      Uri file = Uri.file(pdf.filePath);
+      Uri file = Uri.file(pdf!.filePath ??'');
       // final Reference storageReference =
       // FirebaseStorage.instance.ref().child('pdfs');
       Reference ref = FirebaseStorage.instance
@@ -118,20 +118,20 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
   var vehicle;
   var phone;
   validateUpdate() async {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
       //IO Operations
       final newFilePath = await IoOperations.renameDocsFromDirectory(
-          currentPDFdb.filePath, currentPDFdb.fileName, newFileName);
+          currentPDFdb!.filePath ?? '', currentPDFdb!.fileName ??'', newFileName!);
       //SQL Operations
       PdfDB d = PdfDB(currentPDFId, newFileName, newFilePath);
       dbHelper = DBHelper();
-      await dbHelper.initDb();
-      dbHelper.update(d);
+      await dbHelper!.initDb();
+      dbHelper!.update(d);
       setState(() {
         isUpdating = false;
       });
-      dbHelper.close();
+      dbHelper!.close();
     }
     clearName();
     refreshList();
@@ -139,15 +139,15 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
 
   deleteItemFromList(PdfDB pdf) async {
     dbHelper = DBHelper();
-    await dbHelper.initDb();
-    await dbHelper.delete(pdf.id);
-    IoOperations.deleteDocsFromDirectory(pdf.filePath);
+    await dbHelper!.initDb();
+    await dbHelper!.delete(pdf.id!);
+    IoOperations.deleteDocsFromDirectory(pdf.filePath!);
     refreshList();
   }
 
   _validateDelete(bool newState, PdfDB pdf) {
-    currentState = newState;
-    if (currentState) {
+    currentState = newState ;
+    if (currentState!) {
       deleteItemFromList(pdf);
     } else {
       print("### item is not deleted ###");
@@ -184,31 +184,31 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
         rows: pdfDBList
             .map((pdf) => DataRow(
                   cells: [
-                    DataCell(Text(pdf.fileName)),
+                    DataCell(Text(pdf.fileName ??"")),
                     DataCell(
                         IconButton(
                           icon: const Icon(
                             Icons.image,
                             color: Colors.blueAccent,
-                          ),
+                          ), onPressed: () {  },
                         ), onTap: () {
-                      String filePath = pdf.filePath;
-                      PdfReader.navigateToPDFPage(context, filePath);
+                      String? filePath = pdf.filePath;
+                      PdfReader.navigateToPDFPage(context, filePath!);
                     }),
                     DataCell(
                         IconButton(
                           icon: const Icon(
                             Icons.upload_sharp,
                             color: Colors.blueGrey,
-                          ),
+                          ), onPressed: () {  },
                         ), onTap: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context,
-                            {BuildContext popupContext}) {
+                            {BuildContext? popupContext}) {
                           return AlertDialog(
                             title: Text(
-                              "Upload " + pdf.fileName,
+                              "Upload ",
                               textAlign: TextAlign.center,
                             ),
                             content: SingleChildScrollView(
@@ -253,14 +253,14 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             ),
                                             // keyboardType: TextInputType.visiblePassword,
                                             controller: customer_name,
-                                            validator: (String value) {
-                                              if (value.isEmpty) {
+                                            validator: (String? value) {
+                                              if (value!.isEmpty) {
                                                 return 'Enter Customer Name';
                                               }
 
                                               return null;
                                             },
-                                            onSaved: (String value) {
+                                            onSaved: (String? value) {
                                               customerName = value;
                                             },
                                           ),
@@ -285,14 +285,14 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             ),
                                             // keyboardType: TextInputType.visiblePassword,
                                             controller: vehicle_no,
-                                            validator: (String value) {
-                                              if (value.isEmpty) {
+                                            validator: (String? value) {
+                                              if (value!.isEmpty) {
                                                 return 'Enter Vehicle no';
                                               }
 
                                               return null;
                                             },
-                                            onSaved: (String value) {
+                                            onSaved: (String? value) {
                                               vehicle = value;
                                             },
                                           ),
@@ -320,14 +320,14 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             ),
                                             // keyboardType: TextInputType.visiblePassword,
                                             controller: phone_no,
-                                            validator: (String value) {
-                                              if (value.isEmpty) {
+                                            validator: (String? value) {
+                                              if (value!.isEmpty) {
                                                 return 'Enter Customer Phone No';
                                               }
 
                                               return null;
                                             },
-                                            onSaved: (String value) {
+                                            onSaved: (String? value) {
                                               phone = value;
                                             },
                                           ),
@@ -354,7 +354,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             // keyboardType: TextInputType.visiblePassword,
                                             controller: Email,
                                             validator: (value) => EmailValidator
-                                                    .validate(value)
+                                                    .validate(value??"")
                                                 ? null
                                                 : "Please enter a valid email",
                                             // validator: (String value) {
@@ -364,7 +364,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                             //
                                             //   return null;
                                             // },
-                                            onSaved: (String value) {
+                                            onSaved: (String? value) {
                                               Email_id = value;
                                             },
                                           ),
@@ -374,9 +374,9 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                           child: ElevatedButton(
                                             child: Text("Submit"),
                                             onPressed: () {
-                                              if (_formKey.currentState
+                                              if (_formKey.currentState!
                                                   .validate()) {
-                                                _formKey.currentState.save();
+                                                _formKey.currentState!.save();
                                                 print(Email_id);
                                                 uploadPdfToStorage(pdf);
 
@@ -417,8 +417,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                                                   height: 5,
                                                                 ),
                                                                 Text(
-                                                                  'Successfully Uploaded ' +
-                                                                      pdf.fileName,
+                                                                  'Successfully Uploaded ' ,
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
@@ -483,7 +482,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                                                       return dialog;
                                                     });
                                               }
-                                              _formKey.currentState.save();
+                                              _formKey.currentState!.save();
                                             },
                                           ),
                                         )
@@ -497,7 +496,7 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                         },
                       );
 
-                      controller.text = pdf.fileName;
+                      controller.text = pdf.fileName!;
                     }),
                     DataCell(ConfirmDeleteAlertBoxButton(_validateDelete, pdf)),
                   ],
@@ -511,13 +510,13 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
     return Expanded(
       child: FutureBuilder(
         future: pdfDbList,
-        builder: (context, snapshot) {
+        builder: (BuildContext context,AsyncSnapshot snapshot) {
           //if data exist, return data table
           if (snapshot.hasData && snapshot.data.length > 0) {
             return dataTable(snapshot.data);
           }
           //if data is null or empty list, display no information found
-          if (null == snapshot.data || snapshot.data.length == 0) {
+          if (null == snapshot.data || snapshot.data!.length == 0) {
             return Center(child: InvoiceOverviewWidget.emptyList());
           }
           return CircularProgressIndicator();
@@ -560,8 +559,8 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
                           borderSide: BorderSide(color: Colors.white38),
                         ),
                       ),
-                      validator: (val) => val.length == 0 ? "Enter Name" : null,
-                      onSaved: (val) => assignFileName(val),
+                      validator: (val) => val!.length == 0 ? "Enter Name" : null,
+                      onSaved: (val) => assignFileName(val!),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

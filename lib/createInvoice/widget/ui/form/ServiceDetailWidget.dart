@@ -37,9 +37,9 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
     return Form(
       key: formKey,
       onChanged: () {
-        if (formKey.currentState.validate()) {
+        if (formKey.currentState!.validate()) {
           widget.validateController(widget.pageIndex,false);
-          formKey.currentState.save();
+          formKey.currentState!.save();
         }
         else {
           //prevent procced to next page if validation is not successful
@@ -130,12 +130,12 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
               maxLength: 20,
               textDirection: TextDirection.ltr,
               decoration: InputDecoration(labelText: "Service Name"),
-              validator: (String value) {
-                return value.isEmpty ? 'Empty' : null;
+              validator: (String? value) {
+                return value!.isEmpty ? 'Empty' : null;
               },
-              onSaved: (String value) {
-                serviceDetail.serviceName = value;
-                serviceDetail.serviceNameTxtCtrl.text = serviceDetail.serviceName;
+              onSaved: (String? value) {
+                serviceDetail.serviceName = value!;
+                serviceDetail.serviceNameTxtCtrl.text = serviceDetail.serviceName!;
               },
                 onChanged: (text) {
                   // TextSelection previousSelection =serviceDetail.serviceNameTxtCtrl.selection;
@@ -161,12 +161,12 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
                   ],
                   decoration: InputDecoration(labelText: "Price"),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  validator: (String value) {
-                    return value.isEmpty ? 'Empty' : null;
+                  validator: (String? value) {
+                    return value!.isEmpty ? 'Empty' : null;
                   },
-                  onSaved: (String value) {
+                  onSaved: (String? value) {
                     //only parse when the value is valid to parse
-                    serviceDetail.nettPrice = value;
+                    serviceDetail.nettPrice = value!;
                     serviceDetail.nettPriceTxtCtrl.text = serviceDetail.nettPrice;
                 },
     onChanged: (text) {

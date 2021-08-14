@@ -7,14 +7,14 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
 
-  static Database _db;
+  static Database? _db;
   static const String ID = 'id';
   static const String FILENAME = 'fileName';
   static const String FILEPATH = 'filePath';
   static const String TABLE = 'pdfList';
   static const String DB_NAME = 'listOfPdf.db';
 
-  Future<Database> get db async {
+  Future<Database?> get db async {
     if(_db != null) {
       return _db;
     }
@@ -35,7 +35,7 @@ class DBHelper {
 
   Future<PdfDB> save(PdfDB pdfDB) async {
     var dbClient = await db;
-    pdfDB.id = await dbClient.insert(TABLE, pdfDB.toMap());
+    pdfDB.id = await dbClient!.insert(TABLE, pdfDB.toMap());
     return pdfDB;
     /*
     await dbClient.transaction((txn) async {
@@ -50,12 +50,12 @@ class DBHelper {
       dbClient = await db;
     }
 
-    List<Map> maps = await dbClient.query(TABLE, columns: [ID,FILENAME,FILEPATH]);
+    List<Map<String,dynamic>> maps = await dbClient.query(TABLE, columns: [ID,FILENAME,FILEPATH]);
     // List<Map> maps = await dbClient.rawQuery("SELECT * FROM $TABLE");
     List<PdfDB> pdfDBList = [];
-    print("items in list: " + maps.length.toString());
+    print("items in list: " + maps!.length.toString());
     if(maps.length > 0){
-      for(int i = 0;i < maps.length;i++){
+      for(int? i = 0;i! < maps.length;i++){
           pdfDBList.add(PdfDB.fromMap(maps[i]));
       }
     }
@@ -64,18 +64,18 @@ class DBHelper {
 
   Future<int> delete(int id) async {
     var dbClient = await db;
-    return await dbClient.delete(TABLE, where: "$ID = ?", whereArgs: [id]);
+    return await dbClient!.delete(TABLE, where: "$ID = ?", whereArgs: [id]);
   }
 
   Future<int> update(PdfDB pdfDB) async {
     var dbClient = await db;
-    return await dbClient.update(TABLE, pdfDB.toMap(),where: "$ID = ?",whereArgs: [pdfDB.id]);
+    return await dbClient!.update(TABLE, pdfDB.toMap(),where: "$ID = ?",whereArgs: [pdfDB.id]);
   }
 
   Future close() async {
     var dbClient = await db;
     _db = null;
-    dbClient.close();
+    dbClient!.close();
   }
 
 }

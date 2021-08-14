@@ -1,8 +1,8 @@
 import 'package:invoice_gen/createInvoice/screen/FormScreen.dart';
 class PdfDB {
-  int id;
-  String fileName;
-  String filePath;
+  int? id;
+  String? fileName;
+  String? filePath;
 
   Map<String,dynamic> toMap() {
     var map = <String, dynamic> {

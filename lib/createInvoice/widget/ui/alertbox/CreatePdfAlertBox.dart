@@ -8,17 +8,17 @@ import 'package:invoice_gen/createInvoice/widget/transitions/PageTransistions.da
 class CreatePdfAlertBox {
   static List<Widget> listOfButtons = initListOfButtons();
 
-  CreatePdfAlertBox a1;
+  late CreatePdfAlertBox a1;
   void data() {}
 
   static List<Widget> initListOfButtons() {
     //confirm buttons
     // ignore: deprecated_member_use
-    List<Widget> listOfButtons = new List();
+    List<Widget> listOfButtons = [];
     return listOfButtons;
   }
 
-  static Widget _cancelButton({BuildContext context}) {
+  static Widget _cancelButton({required BuildContext context}) {
     // ignore: deprecated_member_use
     return FlatButton(
       child: Text("Cancel"),
@@ -37,7 +37,7 @@ class CreatePdfAlertBox {
   }
 
   static Widget _generalButton(
-      {BuildContext context, String title, Function onClick}) {
+      {required BuildContext context, required String title, required Function onClick}) {
     // ignore: deprecated_member_use
     return FlatButton(
       child: Text(title),
@@ -48,11 +48,11 @@ class CreatePdfAlertBox {
   }
 
   static void showAlertDialog(
-      BuildContext context, OverallInvoice overallInvoice) {
+      BuildContext context, OverallInvoice? overallInvoice) {
     int buttonListSelect = 0;
     String title = AlertBoxStatus.confirm.title;
     String description = AlertBoxStatus.confirm.description;
-    PdfBuilder pdf;
+    PdfBuilder? pdf;
 
     void changeToLoadingScreen(StateSetter setState) {
       setState(() {
@@ -64,7 +64,7 @@ class CreatePdfAlertBox {
       new Future.delayed(new Duration(seconds: 3), () {
         setState(() {
           pdf = PdfBuilder.createPdfTemplate(
-              overallInvoice.invoiceDetails.invoiceNumber, overallInvoice);
+              overallInvoice!.invoiceDetails!.invoiceNumber ?? '', overallInvoice!);
           title = AlertBoxStatus.completed.title;
           description = AlertBoxStatus.completed.description;
           buttonListSelect = 2;
@@ -80,7 +80,7 @@ class CreatePdfAlertBox {
 
     void goToResultScreen(BuildContext context) {
       print("go to result screen");
-      pdf.navigateToPdfPage(context);
+      pdf!.navigateToPdfPage(context);
     }
 
     showDialog(
@@ -126,7 +126,7 @@ class CreatePdfAlertBox {
 
             //store in a list
             // ignore: deprecated_member_use
-            final buttonList = new List();
+            final buttonList = [];
             buttonList.add(confirmationScreen);
             buttonList.add(loadingScreen);
             buttonList.add(completedScreen);

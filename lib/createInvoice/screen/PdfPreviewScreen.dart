@@ -9,11 +9,10 @@ import 'package:share/share.dart';
 import 'InvoiceBuilderListScreen.dart';
 
 class PdfPreviewScreen extends StatefulWidget {
-  final Key key;
   final String path;
   // File file;
 
-  PdfPreviewScreen({this.key, this.path});
+  PdfPreviewScreen({ required this.path});
 
   @override
   _PdfPreviewScreenState createState() => _PdfPreviewScreenState();
@@ -21,28 +20,18 @@ class PdfPreviewScreen extends StatefulWidget {
 
 
 class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
-  StreamSubscription connectivitySubscription;
+  StreamSubscription? connectivitySubscription;
   
   bool dialogshown = false;
 
   // ignore: missing_return
-  Future<bool> checkinternet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return Future.value(true);
-      }
-    } on SocketException catch (_) {
-      return Future.value(false);
-    }
-  }
 
 
 
   @override
   void dispose() {
     super.dispose();
-    connectivitySubscription.cancel();
+    connectivitySubscription!.cancel();
   }
 
   Future sharePdf(String filePath) async {

@@ -16,11 +16,11 @@ class PdfTemplate {
 
   static _buildServicesList(
       List<List<String>> list, OverallInvoice overallInvoice) {
-    int length = overallInvoice.serviceDetails.length;
+    int length = overallInvoice.serviceDetails!.length;
     int counter = 0;
     double total = 0;
     if (length > 0) {
-      overallInvoice.serviceDetails.forEach((element) {
+      overallInvoice.serviceDetails!.forEach((element) {
         double nettPrice;
         counter++;
         try {
@@ -46,7 +46,7 @@ class PdfTemplate {
   }
 
   static void pdfWriter(
-      OverallInvoice overallInvoice, widgets.Document pdf) async {
+      OverallInvoice? overallInvoice, widgets.Document pdf) async {
     final ByteData bytes = await rootBundle.load("assets/images/image.png");
     final headerImage = PdfImage.file(
       pdf.document,
@@ -54,9 +54,9 @@ class PdfTemplate {
       bytes: bytes.buffer.asUint8List(),
     );
 
-    final List<List<String>> servicesList = new List();
+    final List<List<String>> servicesList = [];
     servicesList.add(["No", "Service", "Total Price"]);
-    double totalAmountToPay = _buildServicesList(servicesList, overallInvoice);
+    double totalAmountToPay = _buildServicesList(servicesList, overallInvoice!);
     // String postId = Uuid().v4();
     // var custom_length_id = nanoid('INV',4);
     var id= customAlphabet('456798123',2);
@@ -110,7 +110,7 @@ class PdfTemplate {
                   padding: const widgets.EdgeInsets.only(top: 2),
                   child: widgets.Text(
                       _validateNullText(
-                          overallInvoice.invoiceDetails.dateOfIssue.doi),
+                          overallInvoice!.invoiceDetails!.dateOfIssue!.doi ?? ""),
                       style: widgets.TextStyle(
                           fontSize: 14.0,
                           fontWeight: widgets.FontWeight.normal)),
@@ -129,8 +129,8 @@ class PdfTemplate {
                 widgets.Padding(
                   padding: const widgets.EdgeInsets.only(top: 2),
                   child: widgets.Text(
-                      "${_validateNullText(overallInvoice.invoiceDetails.dateOfService.firstDate)}" +
-                          " - ${_validateNullText(overallInvoice.invoiceDetails.dateOfService.lastDate)}",
+                      "${_validateNullText(overallInvoice.invoiceDetails!.dateOfService!.firstDate ?? "")}" +
+                          " - ${_validateNullText(overallInvoice.invoiceDetails!.dateOfService!.lastDate ??"")}",
                       style: widgets.TextStyle(
                           fontSize: 14.0,
                           fontWeight: widgets.FontWeight.normal)),
@@ -153,21 +153,21 @@ class PdfTemplate {
                       widgets.Text(
                         "Name: " +
                             _validateNullText(
-                                overallInvoice.contractorDetails.companyName),
+                                overallInvoice.contractorDetails!.companyName ??""),
                       ),
                       widgets.Text(
                         "Phone no: " +
                             _validateNullText(
-                                overallInvoice.contractorDetails.addressLine1),
+                                overallInvoice.contractorDetails!.addressLine1 ??""),
                       ),
                       widgets.Text(
                         "Address: " +
                             _validateNullText(
-                                overallInvoice.contractorDetails.addressLine2),
+                                overallInvoice.contractorDetails!.addressLine2 ??""),
                       ),
                       widgets.Text(
                         _validateNullText(
-                            overallInvoice.contractorDetails.addressLine3),
+                            overallInvoice.contractorDetails!.addressLine3 ??""),
                       ),
                     ]),
                 widgets.Column(
@@ -182,12 +182,12 @@ class PdfTemplate {
                       widgets.Text(
                         "Vehicle No: " +
                             _validateNullText(
-                                overallInvoice.clientDetails.vehicleNo),
+                                overallInvoice.clientDetails!.vehicleNo ??""),
                       ),
                       widgets.Text(
                         "Model: " +
                             _validateNullText(
-                                overallInvoice.clientDetails.modelLine1),
+                                overallInvoice.clientDetails!.modelLine1 ??""),
                       ),
                       // widgets.Text(
                       //   _validateNullText(overallInvoice.clientDetails.addressLine2),
