@@ -32,7 +32,7 @@ class vehicleWidget extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Vehicle Info",
+                "Service Info",
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   decoration:TextDecoration.underline,
@@ -48,9 +48,9 @@ class vehicleWidget extends StatelessWidget {
             maxLength: 20,
             textDirection: TextDirection.ltr,
 
-            decoration: InputDecoration(labelText: "Vehicle No"),
+            decoration: InputDecoration(labelText: "Service type"),
             validator: (String? value) {
-              return value!.isEmpty ? 'Vehicle No is Required' : null;
+              return value!.isEmpty ? 'Service Type is Required' : null;
             },
 
             onSaved: (String? value) {
@@ -69,9 +69,9 @@ class vehicleWidget extends StatelessWidget {
             controller: vehicleDetails.modelTxtCtrl,
             maxLength: 20,
             textDirection: TextDirection.ltr,
-            decoration: InputDecoration(labelText: "Model"),
+            decoration: InputDecoration(labelText: "Service Description"),
             validator: (String? value) {
-              return value!.isEmpty ? 'Model cannot be empty' : null;
+              return value!.isEmpty ? 'Service Description cannot be empty' : null;
             },
             onSaved: (String? value) {
               vehicleDetails.modelLine1 = value!;

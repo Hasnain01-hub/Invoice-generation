@@ -8,6 +8,7 @@ class InvoicePage extends Page {
     required PdfImage this.headerImage,
     required BuildCallback build,
     required EdgeInsets margin,
+
   }) : super(
        build: build,
     margin: margin,
@@ -17,16 +18,18 @@ class InvoicePage extends Page {
 
   @override
   void paint(Widget child, Context context) {
-    if(headerImage != null){
+    if(headerImage != null ){
       final imgProportions = headerImage.width / headerImage.height;
+
       context.canvas.drawImage(
           headerImage,
           0,
-          PdfPageFormat.a3.height - (headerImage.height / imgProportions),
+          PdfPageFormat.a3.height - (headerImage.height / imgProportions) ,
           PdfPageFormat.a3.width
+
       );
+
     }
     super.paint(child, context);
   }
-
 }

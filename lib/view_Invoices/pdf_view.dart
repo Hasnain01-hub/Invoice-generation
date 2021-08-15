@@ -6,6 +6,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -24,36 +25,9 @@ class viewPDF extends StatefulWidget {
 class _viewPDFState extends State<viewPDF> {
   int progress = 0;
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
-  ReceivePort _receivePort = ReceivePort();
 
-  static downloadingCallback(id, status, progress) {
-    ///Looking up for a send port
-    SendPort? sendPort = IsolateNameServer.lookupPortByName("downloading");
 
-    ///sending the data
-    sendPort!.send([id, status, progress]);
-  }
 
-  @override
-  void initState() {
-    // getPermission();
-    super.initState();
-    IsolateNameServer.registerPortWithName(
-        _receivePort.sendPort, "downloading");
-
-    ///Listening for the data is coming other isolates
-    _receivePort.listen((message) {
-      setState(() {
-        progress = message[2];
-      });
-
-      print(progress);
-    });
-
-    FlutterDownloader.registerCallback(downloadingCallback);
-  }
-
-  var dio = Dio();
 
   @override
   Widget build(BuildContext context) {
@@ -71,36 +45,7 @@ class _viewPDFState extends State<viewPDF> {
               Navigator.pop(context);
             },
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.file_download),
-              tooltip: 'Download file',
-              onPressed: () async {
-                // _downloadFile(widget.url);
-                print("download");
-                //start
-                String name = "${DateTime.now().millisecondsSinceEpoch}.pdf";
-                final status = await Permission.storage.request();
-
-                if (status.isGranted) {
-                  final externalDir = await getExternalStorageDirectory();
-
-                  final id = await FlutterDownloader.enqueue(
-                    url: widget.url,
-                    savedDir: externalDir!.path,
-                    fileName: name,
-                    showNotification: true,
-                    openFileFromNotification: true,
-                  );
-                  debugPrint(id);
-                } else {
-                  print("Permission denied");
-                }
-
-                //end
-              },
-            ),
-          ]),
+          ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: widget.url != null

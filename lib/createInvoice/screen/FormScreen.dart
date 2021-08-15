@@ -245,9 +245,9 @@ class _FormScreenState extends State<FormScreen> {
               paginationBlocks(),
               pagination(2, "Customer"),
               paginationBlocks(),
-              pagination(3, "Vehicle"),
+              pagination(3, "Service"),
               paginationBlocks(),
-              pagination(4, "Service"),
+              pagination(4, "Cost of Service"),
             ],
           ),
           Container(

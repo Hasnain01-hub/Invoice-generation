@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as widgets;
@@ -53,6 +54,9 @@ class PdfTemplate {
 
       bytes: bytes.buffer.asUint8List(),
     );
+
+    //Image stamp
+
 
     final List<List<String>> servicesList = [];
     servicesList.add(["No", "Service", "Total Price"]);
@@ -174,18 +178,18 @@ class PdfTemplate {
                     crossAxisAlignment: widgets.CrossAxisAlignment.start,
                     children: <widgets.Widget>[
                       widgets.Text(
-                        "Vehicle Details",
+                        "Service Info",
                         style: widgets.TextStyle(
                             fontWeight: widgets.FontWeight.bold,
                             decoration: widgets.TextDecoration.underline),
                       ),
                       widgets.Text(
-                        "Vehicle No: " +
+                        "Service Type: " +
                             _validateNullText(
                                 overallInvoice.clientDetails!.vehicleNo ??""),
                       ),
                       widgets.Text(
-                        "Model: " +
+                        "Service desc: " +
                             _validateNullText(
                                 overallInvoice.clientDetails!.modelLine1 ??""),
                       ),
@@ -222,7 +226,8 @@ class PdfTemplate {
                 ],
               ),
             ]),
-            // widgets.SizedBox(height: 3.0 * PdfPageFormat.cm),
+            //   widgets.SizedBox(height: 1.0 * PdfPageFormat.cm),
+            //
             // widgets.Row(
             //     mainAxisAlignment: widgets.MainAxisAlignment.spaceBetween,
             //     children: <widgets.Widget>[
@@ -230,12 +235,10 @@ class PdfTemplate {
             //         children: <widgets.Widget>[
             //           widgets.Container(
             //             width: 4.0 * PdfPageFormat.cm,
-            //             decoration: widgets.BoxDecoration(
-            //                 border: widgets.BoxBorder(top: true)),
+            //             ),
+            //
             //           ),
-            //           widgets.Text(
-            //             "Buyer",
-            //           ),
+            //           widgets.Image(stimage)
             //         ],
             //       ),
             //       widgets.Column(
@@ -254,6 +257,7 @@ class PdfTemplate {
             // ),
           ],
         ),
+
       ),
     );
   }
