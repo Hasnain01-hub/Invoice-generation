@@ -26,6 +26,7 @@ dependencies:
   
   cloud_firestore: any
   cupertino_icons: ^1.0.0
+  flutter_launcher_icons: any
   firebase_auth: 1.0.0
   firebase_core: any
   get: any
