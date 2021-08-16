@@ -6,11 +6,13 @@ import 'dart:io';
 import 'package:invoice_gen/createInvoice/widget/transitions/PageTransistions.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:share/share.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'InvoiceBuilderListScreen.dart';
 
 class PdfPreviewScreen extends StatefulWidget {
   final String path;
   // File file;
+
 
   PdfPreviewScreen({ required this.path});
 
@@ -21,17 +23,15 @@ class PdfPreviewScreen extends StatefulWidget {
 
 class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   StreamSubscription? connectivitySubscription;
-  
-  bool dialogshown = false;
 
+  bool dialogshown = false;
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   // ignore: missing_return
 
 
-
   @override
-  void dispose() {
-    super.dispose();
-    connectivitySubscription!.cancel();
+  void initState() {
+    super.initState();
   }
 
   Future sharePdf(String filePath) async {
@@ -41,16 +41,13 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return PDFViewerScaffold(
-      key: widget.key,
+      key: _pdfViewerKey,
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back),
           onPressed: () {
             print("go to home page");
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => InvoiceBuilderListScreen()),
-            );
+            Navigator.of(context).pushReplacement(SlideRightRoute(page: InvoiceBuilderListScreen()));
           },
         ),
         title: Text("PDF Preview"),
