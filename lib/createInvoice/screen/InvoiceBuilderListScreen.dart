@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:invoice_gen/createInvoice/constant/pdf/crud/PdfReader.dart';
 import 'package:invoice_gen/createInvoice/database/io/IoOperations.dart';
 import 'package:invoice_gen/createInvoice/database/sql/db_helper.dart';
@@ -527,46 +528,123 @@ class _InvoiceBuilderListScreenState extends State<InvoiceBuilderListScreen> {
           )
         : Container();
   }
+  Future<bool> exit() async{
+    return await showDialog(
+      context: context,
+      builder: (context) => Dialog(
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                height: 200,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Do you really want to exit ?',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // ignore: deprecated_member_use
+                          RaisedButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            color: Colors.indigo,
+                            child: Text(
+                              'No',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          // ignore: deprecated_member_use
+                          RaisedButton(
+                            onPressed: () {
+                              SystemNavigator.pop();
+                            },
+                            color: Colors.indigo,
+                            child: Text(
+                              'Yes',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                  top: -60,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.indigo,
+                    radius: 60,
+                    child: Icon(
+                      Icons.sentiment_dissatisfied_outlined,
+                      color: Colors.white,
+                      size: 70,
+                    ),
+                  )),
+            ],
+          )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      drawer:NavDrawer(),
-      appBar: AppBar(
-        title: Text("Create Invoice"),
-        centerTitle: true,
+    return WillPopScope(
+        onWillPop: exit,
+      child: Scaffold(
+        drawer:NavDrawer(),
+        appBar: AppBar(
+          title: Text("Create Invoice"),
+          centerTitle: true,
 
-      ),
-
-      body: new Container(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          verticalDirection: VerticalDirection.down,
-          children: [
-            list(),
-            form(),
-          ],
         ),
+
+        body: new Container(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            verticalDirection: VerticalDirection.down,
+            children: [
+              list(),
+              form(),
+            ],
+          ),
+        ),
+        floatingActionButton: isUpdating
+            ? null
+            : FloatingActionButton(
+                onPressed: () {
+                  var value = 0;
+                  setState(() {
+                    value++;
+                    print(value);
+                  });
+                },
+                child: IconButton(
+                    icon: const Icon(Icons.add),
+                    tooltip: 'Add New Invoice',
+                    onPressed: () {
+                      Navigator.pushNamed(context, FormScreen.routeName);
+                    }),
+              ),
       ),
-      floatingActionButton: isUpdating
-          ? null
-          : FloatingActionButton(
-              onPressed: () {
-                var value = 0;
-                setState(() {
-                  value++;
-                  print(value);
-                });
-              },
-              child: IconButton(
-                  icon: const Icon(Icons.add),
-                  tooltip: 'Add New Invoice',
-                  onPressed: () {
-                    Navigator.pushNamed(context, FormScreen.routeName);
-                  }),
-            ),
     );
   }
 }
