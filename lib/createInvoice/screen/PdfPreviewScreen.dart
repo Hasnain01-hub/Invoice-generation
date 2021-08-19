@@ -21,7 +21,7 @@ class PdfPreviewScreen extends StatefulWidget {
 
 
 class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
-  StreamSubscription? connectivitySubscription;
+  // StreamSubscription? connectivitySubscription;
   
   bool dialogshown = false;
 
@@ -29,11 +29,11 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
 
 
   // final GlobalKey<PdfPreviewScreen> _pdfViewerKey = GlobalKey();
-  @override
-  void dispose() {
-    super.dispose();
-    connectivitySubscription!.cancel();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   connectivitySubscription!.cancel();
+  // }
 
   Future sharePdf(String filePath) async {
     Share.shareFiles(['$filePath']);
