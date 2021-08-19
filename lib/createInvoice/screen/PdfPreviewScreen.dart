@@ -6,13 +6,11 @@ import 'dart:io';
 import 'package:invoice_gen/createInvoice/widget/transitions/PageTransistions.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:share/share.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'InvoiceBuilderListScreen.dart';
 
 class PdfPreviewScreen extends StatefulWidget {
   final String path;
   // File file;
-
 
   PdfPreviewScreen({ required this.path});
 
@@ -23,15 +21,17 @@ class PdfPreviewScreen extends StatefulWidget {
 
 class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   StreamSubscription? connectivitySubscription;
-
+  
   bool dialogshown = false;
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+
   // ignore: missing_return
 
 
+
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
+    connectivitySubscription!.cancel();
   }
 
   Future sharePdf(String filePath) async {
@@ -41,7 +41,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return PDFViewerScaffold(
-      key: _pdfViewerKey,
+      key: widget.key,
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back),

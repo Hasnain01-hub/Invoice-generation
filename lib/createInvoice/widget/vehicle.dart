@@ -45,7 +45,7 @@ class vehicleWidget extends StatelessWidget {
           ),
           TextFormField(
             controller: vehicleDetails.vehiclenoTxtCtrl,
-            maxLength: 20,
+            maxLength: 25,
             textDirection: TextDirection.ltr,
 
             decoration: InputDecoration(labelText: "Service type"),
@@ -67,7 +67,7 @@ class vehicleWidget extends StatelessWidget {
           ),
           TextFormField(
             controller: vehicleDetails.modelTxtCtrl,
-            maxLength: 20,
+            maxLength: 30,
             textDirection: TextDirection.ltr,
             decoration: InputDecoration(labelText: "Service Description"),
             validator: (String? value) {
@@ -83,6 +83,28 @@ class vehicleWidget extends StatelessWidget {
                 // vehicleDetails.modelTxtCtrl.selection = previousSelection;
                 final val = TextSelection.collapsed(offset:vehicleDetails.modelTxtCtrl.text.length);
                 vehicleDetails.modelTxtCtrl.selection = val;
+              }
+          ),
+          TextFormField(
+              controller: vehicleDetails.Notice,
+              maxLength: 80,
+              textDirection: TextDirection.ltr,
+
+              decoration: InputDecoration(labelText: "Note"),
+              // validator: (String? value) {
+              //   return value!.isEmpty ? 'Service Type is Required' : null;
+              // },
+
+              onSaved: (String? value) {
+                vehicleDetails.notice = value! ??"not mentioned";
+                vehicleDetails.Notice.text = vehicleDetails.notice;
+              },
+              onChanged: (text) {
+                // TextSelection previousSelection = vehicleDetails.vehiclenoTxtCtrl.selection;
+                // vehicleDetails.vehiclenoTxtCtrl.text = text;
+                // vehicleDetails.vehiclenoTxtCtrl.selection = previousSelection;
+                final val = TextSelection.collapsed(offset:vehicleDetails.Notice.text.length);
+                vehicleDetails.Notice.selection = val;
               }
           ),
           // TextFormField(

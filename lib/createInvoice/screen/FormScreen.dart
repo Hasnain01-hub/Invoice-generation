@@ -103,12 +103,12 @@ class _FormScreenState extends State<FormScreen> {
       }
 
       //String ?? '' == String?
-      if (checkIfNullOrEmpty(invoiceDetails.dateOfService!.firstDate ??"")) {
-        state = true;
-      }
-      if (checkIfNullOrEmpty(invoiceDetails.dateOfService!.lastDate ??"")) {
-        state = true;
-      }
+      // if (checkIfNullOrEmpty(invoiceDetails.dateOfService!.firstDate ??"")) {
+      //   state = true;
+      // }
+      // if (checkIfNullOrEmpty(invoiceDetails.dateOfService!.lastDate ??"")) {
+      //   state = true;
+      // }
       return state;
     }
 

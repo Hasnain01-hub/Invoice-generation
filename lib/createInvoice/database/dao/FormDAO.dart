@@ -39,13 +39,16 @@ class BillingDetails {
 class VehicleDetails {
   TextEditingController vehiclenoTxtCtrl = new TextEditingController();
   TextEditingController modelTxtCtrl = new TextEditingController();
+  TextEditingController Notice = new TextEditingController();
 
   late String vehicleNo;
   late String modelLine1;
+  late String notice;
   printContent() {
     print("my vehicle no: " + vehicleNo.toString());
 
     print("Model no: " + modelLine1.toString());
+    print("Model no: " + Notice.toString());
   }
 
 }

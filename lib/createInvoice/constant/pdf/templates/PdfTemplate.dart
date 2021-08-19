@@ -125,7 +125,7 @@ class PdfTemplate {
               mainAxisAlignment: widgets.MainAxisAlignment.center,
               children: <widgets.Widget>[
                 widgets.Text(
-                  "Date Of Service: ",
+                  "Date Of Subscription: ",
                   style: widgets.TextStyle(
                     fontSize: 16.0,
                   ),
@@ -133,8 +133,8 @@ class PdfTemplate {
                 widgets.Padding(
                   padding: const widgets.EdgeInsets.only(top: 2),
                   child: widgets.Text(
-                      "${_validateNullText(overallInvoice.invoiceDetails!.dateOfService!.firstDate ?? "")}" +
-                          " - ${_validateNullText(overallInvoice.invoiceDetails!.dateOfService!.lastDate ??"")}",
+                      "${_validateNullText(overallInvoice.invoiceDetails!.dateOfService!.firstDate ?? "Not mentioned")}" +
+                          " - ${_validateNullText(overallInvoice.invoiceDetails!.dateOfService!.lastDate ??"Not mentioned")}",
                       style: widgets.TextStyle(
                           fontSize: 14.0,
                           fontWeight: widgets.FontWeight.normal)),
@@ -226,21 +226,31 @@ class PdfTemplate {
                 ],
               ),
             ]),
-            //   widgets.SizedBox(height: 1.0 * PdfPageFormat.cm),
+              widgets.SizedBox(height: 1.0 * PdfPageFormat.cm),
             //
-            // widgets.Row(
-            //     mainAxisAlignment: widgets.MainAxisAlignment.spaceBetween,
-            //     children: <widgets.Widget>[
-            //       widgets.Column(
-            //         children: <widgets.Widget>[
-            //           widgets.Container(
-            //             width: 4.0 * PdfPageFormat.cm,
-            //             ),
-            //
-            //           ),
-            //           widgets.Image(stimage)
-            //         ],
-            //       ),
+            widgets.Row(
+                mainAxisAlignment: widgets.MainAxisAlignment.start,
+                children: <widgets.Widget>[
+                  widgets.Column(
+                    crossAxisAlignment: widgets.CrossAxisAlignment.start,
+                    children: <widgets.Widget>[
+
+                      widgets.Text(
+
+                        "Note: " +
+                           _validateNullText(
+                                overallInvoice.clientDetails!.notice ?? "Not mentioned"),
+                        style: widgets.TextStyle(
+                            color: PdfColor.fromInt(0xffb74093),
+                            fontWeight: widgets.FontWeight.bold,
+                            decoration: widgets.TextDecoration.underline),
+                      ),
+                    ]
+                  ),
+
+
+                    ],
+                  ),
             //       widgets.Column(
             //         children: <widgets.Widget>[
             //           widgets.Container(

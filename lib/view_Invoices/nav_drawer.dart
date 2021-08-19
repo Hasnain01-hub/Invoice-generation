@@ -14,6 +14,48 @@ class NavDrawer extends StatefulWidget {
   _NavDrawerState createState() => _NavDrawerState();
 }
 final ButtonStyle style = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20) );
+Widget copyrightWidget() {
+  return Column(
+    children: [
+      Row(
+        children: [
+          SizedBox(
+            width: 15,
+          ),
+          Image.asset(
+            "assets/images/IndianFlag.png",
+            height: 40,
+            width: 40,
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Text("Make In India Initiative"),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget _drawerNameWidget(BuildContext context) {
+  return CircleAvatar(
+    radius: 200,
+    child: ClipOval(
+      child: Container(
+        height: 120,
+        width: 120,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.contain,
+            image: AssetImage('assets/images/logo.png'),
+          ),
+        ),
+        // child: Text("Omkar-Cool-Service"),
+      ),
+
+    ));
+  }
+
 
 Future<bool> exit(BuildContext context) async{
   return await showDialog(
@@ -101,24 +143,24 @@ Widget exitWidget(BuildContext context) {
             width: 15,
           ),
 
-          ElevatedButton(
+    ElevatedButton(
 
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
+    style: ButtonStyle(
+  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+  RoundedRectangleBorder(
 
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.pinkAccent)
-                ),
-              ),
-              textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 20.0)),
+  borderRadius: BorderRadius.circular(18.0),
+  side: BorderSide(color: Colors.pinkAccent)
+  ),
+  ),
+textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 20.0)),
 
-            ),
-            onPressed: () {
-              exit(context);
-            },
-            child: const Text('Exit'),
-          ),
+  ),
+    onPressed: () {
+    exit(context);
+    },
+    child: const Text('Exit'),
+    ),
 
         ],
       ),
@@ -130,38 +172,59 @@ class _NavDrawerState extends State<NavDrawer> {
   Widget build(BuildContext context) {
     return  Drawer(
 
-      child: ListView(
+    child: ListView(
+      padding: EdgeInsets.zero,
 
-
-        children: [ListTile(
-          title: const Text('Generate Invoices'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => InvoiceBuilderListScreen()),
-            );
-          },
+    children: [
+      DrawerHeader(
+        decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
         ),
-          ListTile(
-            title: const Text('View Invoices'),
-            onTap: () {
+        child: _drawerNameWidget(context),
+      ),
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => viewInvoices()),//
-              );
-            },
-          ),
-          // SizedBox(height: 300.0),
+      //
+      // DrawerLabel(
+      //   icon: Icon(Icons.account_circle),
+      //   text: "Omkar-Cool_service",
+      //   // onTap: () {
+      //   //   Navigator.pushNamedAndRemoveUntil(
+      //   //       context, "/adminProfile", (route) => false);
+      //   // },
+      // ),
+      // SizedBox(height: 0.6, child: Container(color: Colors.black)),
 
-          SizedBox(height: 1.0, child: Container(color: Colors.black)),
-          exitWidget(context),
+      ListTile(
+    title: const Text('Generate Invoices'),
+    onTap: () {
+    // Update the state of the app
+    // ...
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => InvoiceBuilderListScreen()),
+    );
+    },
+    ),
+      SizedBox(height: 0.6, child: Container(color: Colors.black)),
+    ListTile(
+    title: const Text('View Invoices'),
+    onTap: () {
+
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => viewInvoices()),//
+    );
+    },
+    ),
+      // SizedBox(height: 300.0),
+      SizedBox(height: 0.6, child: Container(color: Colors.black)),
+      SizedBox(height: 420.0),
+      SizedBox(height: 0.6, child: Container(color: Colors.black)),
+      copyrightWidget(),
 
 
 
-        ],),
+    ],),
     );
   }
 }

@@ -199,9 +199,9 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
             controller: widget.invoiceDetails.dateOfService!.firstDateTxtCtrl,
             maxLength: 10,
             decoration: InputDecoration(labelText: 'From',counter: Offstage(),),
-            validator: (String? value) {
-              return value!.isEmpty ? 'Empty' : null;
-            },
+            // validator: (String? value) {
+            //   return value!.isEmpty ? 'Empty' : null;
+            // },
             onSaved: (String? value) {
               widget.invoiceDetails.dateOfService!.firstDate = value!;
             },
@@ -215,9 +215,9 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
             controller: widget.invoiceDetails.dateOfService!.lastDateTxtCtrl,
             maxLength: 10,
             decoration: InputDecoration(labelText: 'To',counter: Offstage(),),
-            validator: (String? value) {
-              return value!.isEmpty ? 'Empty' : null;
-            },
+            // validator: (String? value) {
+            //   return value!.isEmpty ? 'Empty' : null;
+            // },
             onSaved: (String? value) {
               widget.invoiceDetails.dateOfService!.lastDate = value;
             },

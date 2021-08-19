@@ -17,6 +17,8 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
   final serviceIdCounter = 0;
   final double _gstRate = 0.00;
 
+  bool? isChecked;
+
   @override
   void initState() {
     super.initState();
@@ -177,10 +179,14 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
     serviceDetail.nettPriceTxtCtrl.selection = val;
     }
               ),
+
             ),
+
           ),
+
         ],
       ),
+        
     );
   }
 
