@@ -11,8 +11,9 @@ import 'InvoiceBuilderListScreen.dart';
 class PdfPreviewScreen extends StatefulWidget {
   final String path;
   // File file;
+// final Key key;
 
-  PdfPreviewScreen({ required this.path});
+  PdfPreviewScreen({Key? key, required this.path}) : super(key: key);
 
   @override
   _PdfPreviewScreenState createState() => _PdfPreviewScreenState();
@@ -27,7 +28,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   // ignore: missing_return
 
 
-
+  // final GlobalKey<PdfPreviewScreen> _pdfViewerKey = GlobalKey();
   @override
   void dispose() {
     super.dispose();
