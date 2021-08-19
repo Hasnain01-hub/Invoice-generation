@@ -22,7 +22,11 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
   @override
   void initState() {
     super.initState();
+    // addper(ServiceDetails serviceDetail);
   }
+  addper(ServiceDetails serviceDetail){
+  serviceDetail.gstRate = serviceDetail.rates[2];
+}
 
   addServiceIntoList() {
     if (widget.serviceDetails.length < 22) {
@@ -34,6 +38,47 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
     }
   }
 
+
+  Widget addGst(ServiceDetails serviceDetail){
+
+    // TextStyle textStyle = Theme.of(context).textTheme.title;
+  return Row(
+    children: <Widget>[
+      Expanded(
+        child: Text(
+          'Select GST Rate',
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
+      Container(
+        width: 10.0,
+      ),
+      Expanded(
+        child: DropdownButton<int>(
+          items: serviceDetail.rates.map((rate) {
+            return DropdownMenuItem<int>(
+              value: rate,
+              child: Text(
+                '$rate %',
+                style: TextStyle(fontSize: 16) ,
+              ),
+            );
+          }).toList(),
+          onChanged: (rate) {
+            if (rate != serviceDetail.gstRate)
+              setState(() {
+                serviceDetail.gstRate = rate!;
+               // includingGSTController.clear();
+            //     gstController.clear();
+            //     excludingGSTController.clear();
+               });
+          },
+          value: serviceDetail.gstRate,
+        ),
+      )
+    ],
+  );
+}
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -48,51 +93,68 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
           widget.validateController(widget.pageIndex,true);
         }
       },
-      child: Column(
-        children: [
-          titleWithAddButton(),
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            margin: EdgeInsets.only(top: 15),
-            height: 340,
-            color: Colors.blueGrey[100],
-            child: widget.serviceDetails.length == 0
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "No Service List To Display",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20),
-                          textAlign: TextAlign.center,
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              titleWithAddButton(),
+              Container(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(top: 15),
+                height: 298,
+                color: Colors.blueGrey[100],
+                child: widget.serviceDetails.length == 0
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No Service List To Display",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Click on Plus Icon (+) to add new services",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Click on Plus Icon (+) to add new services",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: widget.serviceDetails.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        addServiceItem(index, widget.serviceDetails[index]),
-                  ),
+                      )
+                    :
+                      ListView.builder(
+                            itemCount: widget.serviceDetails.length,
+                            itemBuilder: (BuildContext context, int index) =>
+                                addServiceItem(index,widget.serviceDetails[index]),
+
+
+                          ),
+
+
+
+
+
+              ),
+              addGst(widget.serviceDetails[0]),
+
+              // SizedBox(
+              //   height: 10,
+              // ),
+
+
+            ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -228,6 +290,7 @@ class _ServiceDetailWidgetState extends State<ServiceDetailWidget> {
                 }),
           ),
         ),
+
       ],
     );
   }

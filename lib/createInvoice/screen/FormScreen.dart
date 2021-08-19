@@ -416,7 +416,11 @@ class _FormScreenState extends State<FormScreen> {
           Container(
             width: 40,
             height: 40,
-            color: colorBox,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: colorBox,
+            ),
+            // color: colorBox,
             child: Center(
                 child: Text(
               number.toString(),

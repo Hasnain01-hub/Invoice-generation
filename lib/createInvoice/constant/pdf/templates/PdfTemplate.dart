@@ -20,6 +20,10 @@ class PdfTemplate {
     int length = overallInvoice.serviceDetails!.length;
     int counter = 0;
     double total = 0;
+    var rate;
+    double gst=0;
+    double excluding=0;
+
     if (length > 0) {
       overallInvoice.serviceDetails!.forEach((element) {
         double nettPrice;
@@ -27,6 +31,11 @@ class PdfTemplate {
         try {
           total += double.parse(element.nettPrice);
           nettPrice = double.parse(element.nettPrice);
+          rate=element.gstRate;
+           gst = (total * element.gstRate / 100);
+           excluding = total + gst;
+          print("jbbcwbcjwhcjhcjhjhjhjskjakks"+excluding.toString());
+          print("jbbcwbcjwhcjhcjhjhjbjhbjhbjhbjhbjbhjhbjhbjhbjhjskjakks"+gst.toString());
         } on Exception {
           nettPrice = 0.00;
           print("unable to parse service no: $counter");
@@ -40,7 +49,7 @@ class PdfTemplate {
         ]);
       });
 
-      return total;
+      return [total,gst,excluding,rate];
     } else {
       return 0.00;
     }
@@ -60,7 +69,8 @@ class PdfTemplate {
 
     final List<List<String>> servicesList = [];
     servicesList.add(["No", "Service", "Total Price"]);
-    double totalAmountToPay = _buildServicesList(servicesList, overallInvoice!);
+    var totalAmountToPay=[];
+     totalAmountToPay = _buildServicesList(servicesList, overallInvoice!);
     // String postId = Uuid().v4();
     // var custom_length_id = nanoid('INV',4);
     var id= customAlphabet('456798123',2);
@@ -204,28 +214,104 @@ class PdfTemplate {
             ),
             widgets.SizedBox(height: 1.5 * PdfPageFormat.cm),
             widgets.Table.fromTextArray(context: context, data: servicesList),
-            widgets.SizedBox(height: 0.5 * PdfPageFormat.cm),
+            widgets.SizedBox(height: 1.0 * PdfPageFormat.cm),
             widgets.Row(children: <widgets.Widget>[
+
               widgets.Expanded(child: widgets.Container()),
               widgets.Row(
                 mainAxisAlignment: widgets.MainAxisAlignment.center,
                 children: <widgets.Widget>[
+
+
                   widgets.Text(
-                    "Total: Rs ",
+                    "Gst Rate: ",
                     style: widgets.TextStyle(
                       fontSize: 20.0,
                     ),
                   ),
                   widgets.Padding(
                     padding: const widgets.EdgeInsets.only(top: 2),
-                    child: widgets.Text("${totalAmountToPay.toString()}",
+                    child: widgets.Text("${totalAmountToPay[3]}%",
                         style: widgets.TextStyle(
                             fontSize: 18.0,
                             fontWeight: widgets.FontWeight.bold)),
                   ),
+
                 ],
               ),
             ]),
+
+
+            widgets.SizedBox(height: 0.2 * PdfPageFormat.cm),
+
+            widgets.Row(children: <widgets.Widget>[
+
+              widgets.Expanded(child: widgets.Container()),
+              widgets.Row(
+                mainAxisAlignment: widgets.MainAxisAlignment.center,
+                children: <widgets.Widget>[
+                  widgets.Text(
+                    "Gst: Rs ",
+                    style: widgets.TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  widgets.Padding(
+                    padding: const widgets.EdgeInsets.only(top: 2),
+                    child: widgets.Text("${totalAmountToPay[1]}",
+                        style: widgets.TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: widgets.FontWeight.bold)),
+                  ),
+
+
+
+                  // widgets.Text(
+                  //   "Including Gst: Rs ",
+                  //   style: widgets.TextStyle(
+                  //     fontSize: 20.0,
+                  //   ),
+                  // ),
+                  // widgets.Padding(
+                  //   padding: const widgets.EdgeInsets.only(top: 2),
+                  //   child: widgets.Text("${totalAmountToPay[2]}",
+                  //       style: widgets.TextStyle(
+                  //           fontSize: 18.0,
+                  //           fontWeight: widgets.FontWeight.bold)),
+                  // ),
+
+                ],
+              ),
+            ]),
+
+            // widgets.SizedBox(height: 1.5 * PdfPageFormat.cm),
+            widgets.SizedBox(height: 0.2 * PdfPageFormat.cm),
+            widgets.Row(children: <widgets.Widget>[
+
+              widgets.Expanded(child: widgets.Container()),
+              widgets.Row(
+                mainAxisAlignment: widgets.MainAxisAlignment.center,
+                children: <widgets.Widget>[
+
+
+                  widgets.Text(
+                    "Including Gst: Rs ",
+                    style: widgets.TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  widgets.Padding(
+                    padding: const widgets.EdgeInsets.only(top: 2),
+                    child: widgets.Text("${totalAmountToPay[2]}",
+                        style: widgets.TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: widgets.FontWeight.bold)),
+                  ),
+
+                ],
+              ),
+            ]),
+
               widgets.SizedBox(height: 1.0 * PdfPageFormat.cm),
             //
             widgets.Row(
