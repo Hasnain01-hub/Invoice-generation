@@ -61,7 +61,7 @@ class ServiceDetails {
   int? _serviceId;
   String? serviceName;
   String nettPrice = "0.00";
-  var rates = [0,5, 12, 18];
+  var rates = [0,5, 12, 18,28];
   var gstRate = 18;
   double includingRate = 0;
 
