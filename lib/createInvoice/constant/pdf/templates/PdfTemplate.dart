@@ -57,7 +57,7 @@ class PdfTemplate {
 
   static void pdfWriter(
       OverallInvoice? overallInvoice, widgets.Document pdf) async {
-    final ByteData bytes = await rootBundle.load("assets/images/Invoice_header.jpg");
+    final ByteData bytes = await rootBundle.load("assets/images/header-image.jpg");
     final headerImage = PdfImage.file(
       pdf.document,
 
@@ -295,7 +295,7 @@ class PdfTemplate {
 
 
                   widgets.Text(
-                    "Including Gst: Rs ",
+                    "Total: Rs ",
                     style: widgets.TextStyle(
                       fontSize: 20.0,
                     ),

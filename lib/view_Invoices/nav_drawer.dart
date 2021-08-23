@@ -45,9 +45,11 @@ Widget _drawerNameWidget(BuildContext context) {
         height: 120,
         width: 120,
         decoration: BoxDecoration(
+          color: Colors.white,
           image: DecorationImage(
+
             fit: BoxFit.contain,
-            image: AssetImage('assets/images/logo.png'),
+            image: AssetImage('assets/images/logo-sm.png' ),
           ),
         ),
         // child: Text("Omkar-Cool-Service"),

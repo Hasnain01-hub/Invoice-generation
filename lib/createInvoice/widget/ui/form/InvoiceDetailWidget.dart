@@ -93,7 +93,7 @@ class _InvoiceDetailWidgetState extends State<InvoiceDetailWidget> {
                   }
               ),
               _buildDateOfIssue(),
-              _subHeaderTitle("Date Of Service"),
+              _subHeaderTitle("Date Of Subscription"),
               _buildDateOfService(),
               SizedBox(
                 height: 50,
